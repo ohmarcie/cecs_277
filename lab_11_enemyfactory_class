@@ -1,0 +1,9 @@
+import abc
+
+class EnemyFactory(abc.ABC):
+  """Interface - template for all enemy factories."""
+  
+  @abc.abstractmethod
+  def create_random_enemy(self):
+    "Creates and returns enemy objects."
+    pass

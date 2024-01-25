@@ -1,0 +1,48 @@
+from pokemon import Pokemon
+import random, check_input
+
+class Fire(Pokemon):
+  """Simulates a Fire type pokemon which the player can use in the game."""
+  
+  def __init__(self, name, type):
+    """Initliazes Pokemon of type Fire."""
+    super().__init__(name, type)
+
+  def get_special_menu(self):
+    """Returns the menu for the special moves of the type."""
+    return check_input.get_int_range("\nChoose a Move:\n1. Embers\n2. Fire Blast\nEnter move: ", 1, 2)
+
+  def _special_move(self, opponent, move):
+    """Calls the special moves for this type."""
+    if move == 1:
+      return self._ember(opponent)
+    if move == 2:
+      return self._fire_blast(opponent)
+
+  def _ember(self, opponent):
+    """Calls Fire type attack EMBER"""
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(1, 5) * d
+    opponent._take_damage(dmg)
+    s = self._name + " engulfs " + opponent._name + " in EMBERS for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else:
+      return s
+
+  def _fire_blast(self, opponent):
+    """Calls Fire type attack FIRE BLAST"""
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(3, 4) * d
+    opponent._take_damage(dmg)
+    s = self._name + " BLASTS " + opponent._name + " with FIRE for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else:
+      return s

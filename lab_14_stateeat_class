@@ -1,0 +1,27 @@
+import puppystate
+import stateplay
+import stateasleep
+
+class StateEat(puppystate.PuppyState):
+  """ State class for Puppy's Eat state. """
+  
+  def feed(self, puppy):
+    """ Changes puppy's state to eating """
+
+    #if the puppy has been fed once
+    if puppy.feeds == 1:
+      puppy.inc_feeds()
+      return "The puppy continues to eat as you add another scoop of kibble to its bowl."
+
+    #if the puppy has been fed twice, change state
+    elif puppy.feeds == 2:
+      puppy.inc_feeds()
+      puppy.reset()
+      puppy.change_state(stateasleep.StateAsleep())
+      return "The puppy continues to eat as you add another scoop of kibble to its bowl.\nThe puppy ate so much it fell asleep!"
+
+  def play(self, puppy):
+    """ Changes puppy's state to playing. """
+    puppy.change_state(stateplay.StatePlay()) #changes the state of the puppy
+    puppy.inc_plays() 
+    return "The puppy looks up from its food and chases the ball you threw."

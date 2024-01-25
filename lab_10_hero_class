@@ -1,0 +1,52 @@
+from maze import Maze 
+class Hero():
+  """ Represents the Hero through location and movement. 
+  Attributes:
+      _row (int): the row value
+      _col (int): the column value"""
+
+  def __init__(self):
+    """ Sets the row and column values, as well as the Hero's location. """
+    m = Maze()
+    self._row, self._col = m.find_start()
+    m[self._row][self._col] = "H"
+    
+  def go_up(self):
+    """ Updates the Hero's location and moves them up if there is no wall. """
+    m = Maze()
+    if m[self._row - 1][self._col] == "*":
+      return "You ran into a wall!"
+    else:
+      m[self._row][self._col] = " "
+      self._row -= 1
+      m[self._row][self._col] = "H"
+
+  def go_down(self):
+    """ Updates the Hero's location and moves them down if there is no wall. """
+    m = Maze()
+    if m[self._row + 1][self._col] == "*":
+      return "You ran into a wall!"
+    else:
+      m[self._row][self._col] = " "
+      self._row += 1
+      m[self._row][self._col] = "H"
+
+  def go_left(self):
+    """ Updates the Hero's location and moves them left if there is no wall. """
+    m = Maze()
+    if m[self._row][self._col - 1] == "*":
+      return "You ran into a wall!"
+    else:
+      m[self._row][self._col] = " "
+      self._col -= 1
+      m[self._row][self._col] = "H"
+
+  def go_right(self):
+    """ Updates the Hero's location and moves them right if there is no wall. """
+    m = Maze()
+    if m[self._row][self._col + 1] == "*":
+      return "You ran into a wall!"
+    else:
+      m[self._row][self._col] = " "
+      self._col += 1
+      m[self._row][self._col] = "H"

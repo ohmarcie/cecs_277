@@ -1,0 +1,61 @@
+import check_input, random
+from fire import Fire
+from water import Water
+from grass import Grass
+
+def main():
+  type = random.randint(1, 3)
+  if type == 1:
+    gym_type = "FIRE"
+    gym_team = [Fire("Arcanine", type - 1), Fire("Rapidash", type - 1), Fire("Darmanitan", type - 1)]
+  elif type == 2:
+    gym_type = "WATER"
+    gym_team = [Water("Magikarp", type - 1), Water("Lapras", type - 1), Water("Psyduck", type - 1)]
+  elif type == 3:
+    gym_type = "GRASS"
+    gym_team = [Grass("Treecko", type - 1), Grass("Turtwig", type - 1), Grass("Pansage", type - 1)]
+
+  print ("PROF OAK: Hello Trainer! Today you're off to fight your first gym battle of 1 vs. 3", gym_type, "Pokemon. Select the pokemon that you will fight with.")
+  user_choice = check_input.get_int_range("1. I choose you, Charmander.\n2. Squirtle! GO!\n3. We can do it, Bulbasaur!\nPlease choose a pokemon: ", 1, 3)
+
+  if user_choice == 1: 
+    user_pokemon = Fire("Charmander", user_choice - 1)
+  elif user_choice == 2:
+    user_pokemon = Water("Squirtle", user_choice - 1)
+  elif user_choice == 3:
+    user_pokemon = Grass("Bulbasaur", user_choice - 1)
+    
+  print("\n  -- GYM BATTLE --")
+  while user_pokemon._hp != 0:
+    print("GYM LEADER: I choose you:")
+    print(gym_team[0])
+    print()
+    print(user_pokemon)
+
+    attack_type = check_input.get_int_range("Choose an Attack Type:\n1. Normal\n2. Special\nEnter attack type: ", 1, 2)
+    user_pokemon.attack(gym_team[0], user_choice - 1, attack_type)
+
+    if gym_team[0]._hp == 0:
+      print("GYM LEADER: NOOOOO! You defeated my pokemon!\n") 
+      gym_team.pop(0)
+      if len(gym_team) == 0:
+        print ("YOU WON! You defeated the gym leader.\n")
+        break
+      else:
+        continue
+        
+    gym_attack = random.randint(1, 2)
+    if gym_attack == 1: #normal
+      move = random.randint(1, 2)
+      print(gym_team[0]._normal_move(user_pokemon, move))
+      print()
+    elif gym_attack == 2: #special
+      move = random.randint(1, 2)
+      print(gym_team[0]._special_move(user_pokemon, move))
+      print()
+
+    if user_pokemon._hp == 0:
+      print("YOU LOST... better luck next time.")
+      break
+
+main()

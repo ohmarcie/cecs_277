@@ -1,0 +1,48 @@
+from pokemon import Pokemon
+import random, check_input
+
+class Grass(Pokemon):
+  """Simulates a Grass type pokemon which the player can use in the game."""
+  
+  def __init__(self, name, type):
+    """Initializes Pokemon of type Grass"""
+    super().__init__(name, type)
+
+  def get_special_menu(self):
+    """Returns the menu for the special moves of the type."""
+    return check_input.get_int_range("\nChoose a move:\n1. Razor Leaf\n2. Solar Beam\nEnter move: ", 1, 2)
+
+  def _special_move(self, opponent, move):
+    """Calls the special moves for this type."""
+    if move == 1:
+      return self._razor_leaf(opponent)
+    if move == 2:
+      return self._solar_beam(opponent)
+
+  def _razor_leaf(self, opponent):
+    """Calls Grass type attack RAZOR LEAF"""
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(1, 5) * d
+    opponent._take_damage(dmg)
+    s = self._name + " attacks " + opponent._name + " with RAZOR LEAF for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else:
+      return s
+
+  def _solar_beam(self, opponent):
+    """Calls Grass type attack SOLAR BEAM"""
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(3, 4) * d
+    opponent._take_damage(dmg)
+    s = self._name + " scorches " + opponent._name + " with SOLAR BEAM for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else:
+      return s

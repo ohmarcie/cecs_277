@@ -1,0 +1,15 @@
+from entity import Entity
+from random import randint
+
+class Goblin(Entity):
+  """ The expert level Goblin's hp and attack. """
+
+  def __init__(self):
+    """ Defines the Goblin's name and hp. """
+    super().__init__("Goblin Leader", randint(10, 14))
+
+  def melee_attack(self, entity):
+    """ Randomized attack against the entity. """
+    dmg = randint(8, 12)
+    entity.take_damage(dmg)
+    return f'{self.name} bites {entity.name} for {dmg} damage.'

@@ -1,0 +1,73 @@
+from task import Task
+
+class TaskList():
+  """ Represents the Tasklist with its task(s). 
+  Attributes:
+    _tasklist (Task []): stores the list of task objects
+  """
+  
+  def __init__(self):
+    """ Reads the initial list of tasks from the file, and constructs, stores, and sort the list. """
+    file = open("tasklist.txt")
+    # List of task objects
+    self._tasklist = []
+  
+    for i in file:
+      # Reads line, splits it into a list of strings [desc, date, time]
+      list_task = i.split(",")
+  
+      # Constructs task, appends it to the list of Task objects
+      desc = list_task[0]
+      date = list_task[1]
+      time = list_task[2]
+      self._tasklist.append(Task(desc, date, time))
+
+    self._tasklist.sort()
+    file.close()
+
+  def add_task(self, desc, date, time):
+    """ Constructs a new task object, and then stores it in the tasklist. """
+    new_task = Task(desc, date, time)
+    self._tasklist.append(new_task)
+    self._tasklist.sort()
+
+  def get_current_task(self):
+    """ Returns the first task object. """
+    return self._tasklist[0]
+
+  def mark_complete(self):
+    """ Removes the first task from the tasklist. """
+    completed_task = self._tasklist.pop(0)
+    return completed_task
+
+  def postpone_task(self, date, time):
+    """ Removes the first task from the tasklist, then create and add a new task with the same description to the task list. """
+    postponed_task = self._tasklist.pop(0)
+
+    self._tasklist.append(Task(postponed_task.description, date, time))
+    self._tasklist.sort()
+
+  def save_file(self):
+    """ Loops through the list and overwrite the contents of the file with the contents of the tasklist. """
+    file = open("tasklist.txt", "w")
+    for i in self._tasklist:
+      file.write(repr(i))
+    file.close()
+
+  def __len__(self):
+    """ Return the number of task objects are in the tasklist. """
+    return len(self._tasklist)
+
+  def __iter__(self):
+    """ Initialize the iterator attribute and return self. """
+    self._n = -1
+    return self
+
+  def __next__(self):
+    """ Iterate the iterator one position at a time. """
+    self._n += 1
+    if self._n >= len(self._tasklist):
+      raise StopIteration
+    else:
+      return self._tasklist[self._n]
+  

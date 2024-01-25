@@ -1,0 +1,12 @@
+from monster import Monster
+
+class Alien(Monster):
+  """ The Alien monster type information and attack. """
+
+  def __init__(self):
+    """ Defines the Alien's name and base hp. """
+    super().__init__("Alien", 6)
+
+  def attack(self):
+    """ Defines the Alien's base attack power. """
+    return 4

@@ -1,0 +1,50 @@
+import maze, minotaur, hero
+
+def main():
+  mz = maze.Maze()
+  h = hero.Hero()
+  mino = minotaur.Minotaur()
+  not_solved = True
+  moves = ["W", "A", "S", "D"]  # list with all acceptable moves
+  turns = 0
+  
+  while not_solved:
+    print(mz)
+
+    #checks if Hero has reached the finished line
+    if any("f" in nested_list for nested_list in mz) == False:
+      print("You found the exit!")
+      break
+    #checks if Hero has been captured by Minotaur 
+    if any("M" in nested_list for nested_list in mz) == False:
+      print("You lose.")
+      break
+      
+    choice = input("Choose a Direction (WASD): ").upper()
+    hmove = None
+    # checks that the user input was a direction
+    while choice not in moves:
+      choice = input("Choose a Direction (WASD): ").upper()
+
+    # Minotaur moves every three turns
+    if turns == 3:
+      mino.move_minotaur()
+      turns = 0
+
+    # moves Hero where user specified
+    if choice == "W":
+      hmove = h.go_up()
+    elif choice == "A":
+      hmove = h.go_left()
+    elif choice == "D":
+      hmove = h.go_right()
+    elif choice == "S":    
+      hmove = h.go_down()
+    turns += 1
+
+    #prints if Hero hits a wall
+    if type(hmove) == str:
+      print(hmove)
+    print()
+
+main()

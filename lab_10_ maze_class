@@ -1,0 +1,51 @@
+class Maze:
+  """Singleton - Class representation of the Maze
+    - <class var> _instance (Maze): represents the instance of the class
+    - <class var> _initialized (boolean): tells whether the object has been initialized
+    - _maze (char [][]): the maze, stored (by rows and columns) as characters in a 2D list"""
+  
+  _instance = None
+  _initialized = False
+  
+  def __new__(cls):
+    """Checks for instance of Maze and returns it. Will construct one if not yet constructed."""
+    if cls._instance is None:
+      cls._instance = super().__new__(cls)
+    return cls._instance
+
+  def __init__(self):
+    """Initializes the Maze object"""
+    if not Maze._initialized:
+      maze_map = open("minomaze.txt")
+      self._maze = []
+      maze_rows = maze_map.readlines()
+      for rows in maze_rows:
+        row = []
+        for columns in rows:
+          row.append(columns)
+        self._maze.append(row)
+      Maze._initialized = True
+
+  def __getitem__(self, row):
+    """Returns the specified row from the maze"""
+    return self._maze[row]
+
+  def __len__(self):
+    """Returns the number of rows in the maze"""
+    num_rows = len(self._maze)
+    return num_rows
+
+  def __str__(self):
+    """Returns the maze as a string in a grid format"""
+    str_maze = ""
+    for r in range(self.__len__()):
+      for c in range(len(self._maze[r])):
+        str_maze += (self._maze[r][c])
+    return str_maze
+  
+  def find_start(self):
+    """Returns the location of the start in the maze as a list [row, col]"""
+    for r in range(self.__len__()):
+      for c in range(len(self._maze[r])):
+        if "s" == self._maze[r][c]:
+          return [r, c]

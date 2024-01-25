@@ -1,0 +1,53 @@
+from door import Door
+from random import randint
+
+class DeadboltDoor(Door):
+  """ This represents a two deadbolts door. Both deadbolts need to unlocked, but user can not tell whether the bolts are unlocked or locked.
+  Attributes:
+    _bolt1: the first bolt
+    _bolt2: the second bolt"""
+  
+  def __init__(self, bolt1 = randint(0, 1), bolt2 = randint(0, 1)):
+    self._bolt1 = bolt1
+    self._bolt2 = bolt2
+
+  def examine_door(self):
+    return "You encounter a double deadbolt door, both deadbolts must be unlocked to open it, but you can't tell from looking at them whether they're locked or unlocked."
+
+  def menu_options(self):
+    return "1. Toggle bolt 1\n2. Toggle bolt 2\n"
+
+  def get_menu_max(self):
+    return 2
+
+  def attempt(self, option):
+    if option == 1:
+      if self._bolt1 == 0:
+        self._bolt1 = 1
+      elif self._bolt1 == 1:
+        self._bolt1 = 0
+      return "You toggle the first bolt."
+    elif option == 2:
+      if self._bolt2 == 0:
+        self._bolt2 = 1
+      elif self._bolt2 == 1:
+        self._bolt2 = 0
+      return "You toggle the second bolt."
+
+  def is_unlocked(self):
+    if self._bolt1 == 1 and self._bolt2 == 1:
+      return True
+    else:
+      return False
+
+  def clue(self):
+    if self._bolt1 == 0 and self._bolt2 == 1:
+      return "You jiggle the door... it seems like one of the bolts is unlocked"
+    elif self._bolt1 == 1 and self._bolt2 == 0:
+      return "You jiggle the door... it seems like one of the bolts is unlocked"
+    elif self._bolt1 == self._bolt2 == 0:
+      return "... it seems like it's completely locked."
+        
+  def success(self):
+    if self.is_unlocked():
+      return "You unlocked both deadbolts and opened the dooor!\n"

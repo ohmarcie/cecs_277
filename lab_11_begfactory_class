@@ -1,0 +1,17 @@
+import enemy_factory, easy_goblin, easy_ogre, easy_troll
+import random
+
+class Beg_Factory(enemy_factory.EnemyFactory):
+  """This factory creates easy enemies."""
+  def create_random_enemy(self):
+    """Randomizes and constructs one of the easy enemies."""
+    e = random.randint(1,3)
+
+    if e == 1:
+      return easy_goblin.Easy_Goblin()
+    if e == 2:
+      return easy_ogre.Easy_Ogre()
+    if e == 3:
+      return easy_troll.Easy_Troll()
+    
+    

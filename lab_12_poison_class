@@ -1,0 +1,15 @@
+from decorator import Decorator
+
+class Poison(Decorator):
+  """ Defines the poison ability. """
+
+  def __init__(self, monst):
+    """ Defines the monst's name and bonus hp. """
+    monst.hp += 4
+    monst.name = f"Poison {monst.name}"
+    super().__init__(monst)
+
+  def attack(self):
+    """ Defines the monst's bonus attack power. """
+    attack = super().attack()
+    return attack + 4

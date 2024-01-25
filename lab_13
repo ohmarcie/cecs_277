@@ -1,0 +1,117 @@
+import check_input, tasklist
+
+def main_menu():
+  """ Displays the main menu and returns the user's valid input. """
+  input = check_input.get_int_range("1. Display all tasks\n2. Display current task\n3. Mark current task complete\n4. Postpone current task\n5. Add new task\n6. Save and quit\nEnter choice: ", 1, 6)
+  return input
+
+def get_date():
+  """ Gets the date (year, month, and day). """
+  print("Enter due date: ")
+  year = check_input.get_int_range("Enter year: ", 2000, 3000)
+  month = check_input.get_int_range("Enter month: ", 1, 12)
+  day = check_input.get_int_range("Enter day: ", 1, 31)
+
+  #if months is less than 10, single digit, adds 0 in front of it
+  if month < 10:
+    month = str(0) + str(month)
+  #if days is less than 10, single digit, adds 0 in front of it
+  if day < 10:
+    day = str(0) + str(day)
+    
+  return f"{year}/{month}/{day}"
+
+def get_time():
+  """ Gets the time in military time. """
+  print("Enter time:")
+  hours = check_input.get_int_range("Enter hour: ", 0, 23)
+  min = check_input.get_int_range("Enter minutes: ", 0, 59)
+  print()
+
+  #if hours is less than 10, single digit, adds 0 in front of it
+  if hours < 10:
+    hours = str(0) + str(hours)
+  #if mins is less than 10, single digit, adds 0 in front of it
+  if min < 10:
+    min = str(0) + str(min)
+
+  return f"{hours}:{min}"
+
+def main():
+  """ Runs the program. """
+
+  t = tasklist.TaskList()
+  option = 0
+  
+  while option != 6:
+    print("-Tasklist-")
+
+    tasks = len(t)
+
+    print("Tasks to complete:", tasks)
+    option = main_menu()
+
+    #displays all the tasks
+    if option == 1:
+      if tasks == 0:
+        print("\nThere are no tasks in the list.\n")
+      else:
+        num = 1
+        print()
+        for i in t:
+          print(f"{num}. {i}" + "\n")
+          num += 1
+        print()
+      
+    #displays current task
+    elif option == 2:
+      if tasks == 0:
+        print("\nThere are no tasks in the list.\n")
+      else:
+        print("\nCurrent task is:")
+        print(t.get_current_task())
+        
+    #mark current task complete
+    elif option == 3:
+      if tasks != 0:
+        print("\nMarking current task as complete:")
+        print(t.get_current_task())
+        t.mark_complete()
+      
+        if tasks != 0:
+          print("New current task is:")
+          print(t.get_current_task())
+        else:
+          print("There are no more tasks. \n")
+      else: 
+        print("\nThere are no more tasks. \n")
+      
+    #postpone current task
+    elif option == 4:
+      if tasks != 0:
+        print("\nPostponing task:")
+        print(t.get_current_task())
+  
+        #enter a new date and time
+        print("Enter new due date:")
+        date = get_date()
+        print("Enter new time:")
+        time = get_time()
+  
+        t.postpone_task(date, time)
+      else:
+        print("\nThere are no more tasks. \n")
+      
+    #add new task
+    elif option == 5:
+      new_task = input("\nEnter a task: ")
+      date = get_date()
+      time = get_time()
+      t.add_task(new_task, date, time)
+
+    #saves the list and quits
+    elif option == 6:
+      print("Saving List...")
+      t.save_file()
+
+main()

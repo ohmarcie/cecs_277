@@ -1,0 +1,49 @@
+import stateasleep
+
+class Puppy():
+  """ The puppy obbject that the user interacts with.
+  Attributes:
+    _state (state interface): the puppy's state
+    _feeds (int): the number of feeds
+    _plays (int): the number of plays"""
+
+  def __init__(self):
+    """ Initialized values of the puppy. """
+    self._state = stateasleep.StateAsleep()
+    self._feeds = 0
+    self._plays = 0
+
+  @property
+  def feeds(self):
+    return self._feeds
+
+  @property
+  def plays(self):
+    return self._plays
+
+  def change_state(self, new_state):
+    """ Updates the puppy's state to the new state. """
+    self._state = new_state
+
+  def throw_ball(self):
+    """ Calls the play method for whatever state the puppy is in. """
+    return self._state.play(self)
+  
+  def give_food(self):
+    """ Calls the feed method for whichever state the puppy is in. """
+    return self._state.feed(self)
+
+  def inc_feeds(self):
+    """ Increments the number of times the puppy has been played with in a row. """
+    self._feeds += 1
+    return self._feeds
+
+  def inc_plays(self):
+    """ Increments the number of times the puppy has been played with in a row. """
+    self._plays += 1
+    return self._plays
+
+  def reset(self):
+    """ Reinitializes the feeds and plays attributes. """
+    self._feeds = 0
+    self._plays = 0

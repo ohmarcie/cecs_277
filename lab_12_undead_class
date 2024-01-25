@@ -1,0 +1,12 @@
+from monster import Monster
+
+class Undead(Monster):
+  """ The Undead monster type information and attack. """
+
+  def __init__(self):
+    """ Defines the Undead's name and base hp. """
+    super().__init__("Zombie", 4)
+
+  def attack(self):
+    """ Defines the Zombie's base attack power. """
+    return 3

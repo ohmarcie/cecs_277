@@ -1,0 +1,50 @@
+import check_input
+import random
+
+def main():
+  cash = 100 #starting cash
+  print("-Three card Monte-")
+  print("Find the queen to double your bet!")
+  
+  while cash!=0:
+    print("\nYou have $" + str(cash) +".") #number of cash the player has
+    bet = check_input.get_int_range("How much you wanna bet? ", 1, cash) #number of cash player wants to bet
+
+    #display the set of cards facing down
+    print("+-----+ +-----+ +-----+")
+    print("|     | |     | |     |")
+    print("|  1  | |  2  | |  3  |")
+    print("|     | |     | |     |")
+    print("+-----+ +-----+ +-----+")
+    
+    number = check_input.get_int_range("Find the queen: ", 1, 3) #pick card number 1-3
+    queen = random.randint(1,3) #randomly assigns the queen a card number
+
+    #display the sets of cards facing up, revealing the cards
+    print("+-----+ +-----+ +-----+")
+    print("|     | |     | |     |")
+    if queen==1:
+      print("|  Q  | |  K  | |  K  |")
+    elif queen==2:
+      print("|  K  | |  Q  | |  K  |")
+    elif queen==3:
+      print("|  K  | |  K  | |  Q  |")
+    print("|     | |     | |     |")
+    print("+-----+ +-----+ +-----+")
+
+    #checks if the number picked is the queen
+    if number==queen:
+      print("You got lucky this time...")
+      cash += bet #add the money bet into the total cash
+    elif number!=queen:
+      print("Sorry... you lose.")
+      cash -= bet #remove the money bet from the total cash
+      if cash==0: #if there player has no more money
+        print("You're out of money. Beat it loser!")
+        break
+        
+    again = check_input.get_yes_no("Play again? (Y/N): ")
+    if again==False:
+      break
+
+main()

@@ -1,0 +1,122 @@
+import check_input
+import random
+
+def main():
+
+  option = 0
+  pScore = 0
+  cScore = 0
+
+  # while loop runs the game until player chooses to quit
+  while (option != 3):
+    print("RPS Menu:")
+    option = check_input.get_int_range("1. Play game \n2. Show Score \n3. Quit\n", 1, 3)
+    
+    if option == 1:
+      #runs until player returns to main menu
+      while True:
+        p_choice = weapon_menu()
+        if p_choice == 'B':
+          #returns to top of main while loop (main menu)
+          break
+          
+        #finds the winner after every turn
+        winner = find_winner(p_choice, comp_weapon())
+        
+        #updates scoreboard
+        if winner == 1:
+          pScore += 1
+        elif winner == 2:
+          cScore += 1
+        
+    elif option == 2:
+      display_score(pScore, cScore)
+    elif option == 3:
+      break
+
+  #prints final score at the end of the game
+  print("Final Score:")
+  display_score(pScore, cScore)
+
+def weapon_menu():
+  """Displays the weapon menu for the player, returns the player's choice of weapon"""
+  
+  p_choice = input("Choose your weapon:\nR. Rock\nP. Paper\nS. Scissors\nB. Back\n")
+
+  if p_choice.upper() == "R":
+    return "R"
+  elif p_choice.upper() == "P":
+    return "P"
+  elif p_choice.upper() == "S":
+    return "S"
+  elif p_choice.upper() == "B":
+    return "B"
+
+def comp_weapon():
+  """Randomizes and returns the computer's choice of weapon"""
+  c_choice = random.randint(1, 3)
+
+  if c_choice == 1:
+    return "R"
+  elif c_choice == 2:
+    return "P"
+  elif c_choice == 3:
+    return "S"
+
+def find_winner(player, comp):
+  """Takes in the player's and computer's choices, returns the winner"""
+  
+  #if player picks rock
+  if player == "R":
+    print ("You chose Rock")
+    if comp == "R":
+      print ("Computer chose Rock")
+      print ("Tie")
+      return 0
+    elif comp == "P":
+      print ("Computer chose Paper")
+      print ("Computer wins")
+      return 2
+    elif comp == "S":
+      print ("Computer chose Scissors")
+      print ("Player wins")
+      return 1
+
+  #if player picks scissors
+  elif player == "S":
+    print("You chose Scissors")
+    if comp == "S":
+      print ("Computer chose Scissors")
+      print ("Tie")
+      return 0
+    elif comp == "R":
+      print ("Computer chose Rock")
+      print ("Computer wins")
+      return 2
+    elif comp == "P":
+      print ("Computer chose Paper")
+      print ("Player wins")
+      return 1
+
+  #if player picks paper
+  elif player == "P":
+    print("You chose Paper")
+    if comp == "P":
+      print("Computer chose Paper")
+      print ("Tie")
+      return 0
+    elif comp == "S":
+      print("Computer chose Scissors")
+      print ("Computer wins")
+      return 2
+    elif comp == "R":
+      print("Computer chose Rock")
+      print ("Player wins")
+      return 1
+
+def display_score(player, comp):
+  """Takes in the player's and computer's current score, displays the current scoreboard of the game"""
+  print("Player =", player)
+  print("Computer =", comp)
+
+main()

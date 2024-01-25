@@ -1,0 +1,44 @@
+import cipher
+
+class Ceaser_Cipher(cipher.Cipher):
+  ''' Another subsitition cipher where the encrypted message is found by looking up each letter and finding the corresponding letter in a shifted alphabet.
+  A Ceaser cipher that shifts the letter in the word.
+  Attributes:
+    shift (int): number of shifts to the right
+    '''
+
+  def __init__(self, shift):
+    ''' initializes the alphabet and then set the shift value if it is a number '''
+    self.shift = shift 
+    super().__init__()
+
+  def _encrypt_letter(self, letter):
+    ''' looks up the letter in the alphabet to find its location, and calculate the postion of the encrypted letter in the manner described above; encrypts the letter '''
+    count = 0 #the index 
+    for y in self._alphabet:
+      if letter == y:
+        break
+      count += 1
+
+    count += self.shift #shifts the index
+    if count > 25:
+      count -= 26
+    for q in range(0, len(self._alphabet)):
+      if count == q:
+        return(self._alphabet[count])
+  
+  def _decrypt_letter(self, letter):
+    ''' look up the letter in the alphabet to find its location, calculate the position of the decrypted letter in the manner; decrypts the letter '''
+    
+    count = 0 #the index
+    for x in self._alphabet:
+      if letter == x:
+        break
+      count += 1
+
+    count -= self.shift #shifts the index
+    if count < 0: #makes sure its in range
+      count += 26
+    for q in range(0, len(self._alphabet)-1):
+      if count == q:
+        return(self._alphabet[q])

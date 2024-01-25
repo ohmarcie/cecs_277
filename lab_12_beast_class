@@ -1,0 +1,12 @@
+from monster import Monster
+
+class Beast(Monster):
+  """ The Beast monster type information and attack. """
+
+  def __init__(self):
+    """ Defines the Beast's name and base hp. """
+    super().__init__("Beast", 6)
+
+  def attack(self):
+    """ Defines the Beast's base attack power. """
+    return 5

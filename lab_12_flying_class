@@ -1,0 +1,15 @@
+from decorator import Decorator
+
+class Flying(Decorator):
+  """ Defines the flying ability. """
+
+  def __init__(self, monst):
+    """ Defines the monst's name and bonus hp. """
+    monst.hp += 3
+    monst.name = f"Flying {monst.name}"
+    super().__init__(monst)
+
+  def attack(self):
+    """ Defines the monst's bonus attack power. """
+    attack = super().attack()
+    return attack + 2

@@ -1,5 +1,5 @@
 import maze, minotaur, hero
-
+ 
 def main():
   mz = maze.Maze()
   h = hero.Hero()

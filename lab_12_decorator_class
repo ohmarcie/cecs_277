@@ -1,0 +1,14 @@
+import abc
+import monster
+
+class Decorator(monster.Monster, abc.ABC):
+  """Decorator for the Monster class."""
+  
+  def __init__(self, monst):
+    """Defines the name and HP of the Monster."""
+    super().__init__(monst.name, monst.hp)  
+    self._monst = monst
+
+  def attack(self):
+    """Returns the attack power of the Monster."""
+    return self._monst.attack()

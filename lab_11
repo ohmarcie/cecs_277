@@ -1,0 +1,77 @@
+import check_input, beg_factory, exp_factory, hero
+
+def main():
+  """ Prompts the user to enter their name and difficulty level, so the program can pick the level of the three enemies. """
+  
+  print ("Monster Trials\n")
+  hero_name = input("What is your name? ")
+  hero_info = hero.Hero(hero_name)
+
+  print ("You will face a series of 3 monsters, " + hero_name + ".\nDefeat them all to win.")
+
+  #declares the lvl the hero is fighting, and what three monsters the hero will fight
+  difficulty_lvl = check_input.get_int_range("\nDifficulty:\n1. Beginner\n2. Expert\n", 1, 2)
+  #generates the easy enemies
+  if difficulty_lvl == 1:
+    beg = beg_factory.Beg_Factory()
+    enemy = []
+    while len(enemy) != 3:
+      entity = beg.create_random_enemy()
+      enemy.append(entity)
+  #generates the difficult enemies
+  elif difficulty_lvl == 2:
+    exp = exp_factory.Exp_Factory()
+    enemy = []
+    while len(enemy) != 3:
+      entity = exp.create_random_enemy()
+      enemy.append(entity)
+
+  #loops the fights between the monsters and the hero
+  while len(enemy) > 0:
+    print ("\nChoose an enemy to attack:")
+    #prints the list of randomized enemies
+    num = 1
+    for i in enemy:
+      print (str(num) + ". ", end= '')
+      print(i)
+      num += 1
+    enemy_choice = check_input.get_int_range("Enter choice: ", 1, num)
+
+    #the hero's, and possibly the monster's, attacks
+    print()
+    print(hero_info)
+    attack_choice = check_input.get_int_range("1. Sword attack\n2. Arrow attack\nEnter choice: ", 1, 2)
+    print()
+    
+    #attack choice 1, with the sword attack
+    if attack_choice == 1:
+      attack = hero_info.melee_attack(enemy[enemy_choice-1])
+      print(attack)
+      if enemy[enemy_choice-1].hp > 0:
+        attack = enemy[enemy_choice-1].melee_attack(hero_info)
+        print(attack)
+      else: 
+        print ("You have slain the " + enemy[enemy_choice-1].name + ".")
+        enemy.pop(enemy_choice-1)
+        
+    #attack choice 2, with the arrow attack
+    elif attack_choice == 2:
+      attack = hero_info.ranged_attack(enemy[enemy_choice-1])
+      print(attack)
+      if enemy[enemy_choice-1].hp > 0:
+        attack = enemy[enemy_choice-1].melee_attack(hero_info)
+        print(attack)
+      else: 
+        print ("You have slain the " + enemy[enemy_choice-1].name + ".")
+        enemy.pop(enemy_choice-1)
+
+    #checks if the hero has slain all the monsters
+    if len(enemy) == 0:
+      print ("\nCongratulations! You defeated all three monsters!\nGame Over")
+
+    #checks if the hero is still alive
+    if hero_info.hp <= 0:
+      print ("\nOh no... you lost...\nGame Over")
+      break
+
+main()

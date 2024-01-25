@@ -1,0 +1,54 @@
+class Cipher:
+  """Implements the Atbash Cipher, which is a substitution cipher where the encrypted message is obtained by looking up each letter and finding the corresponding letter in a reversed alphabet.
+  Attributes:
+      _alphabet (str) - a string (acting as a list) with all the letters of the alphabet 
+  """
+  
+  def __init__(self):
+    self._alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+  def encrypt_message(self, message):
+    """Encrypts the message input by the user."""
+    m = message.upper()
+    en_string = ""      # Encoded Message
+
+    # for each letter in message, will encrypt and append it to the encoded message
+    for char in m:
+      if char in self._alphabet:
+        en_string += self._encrypt_letter(char)
+      # appends non-letters (spaces and symbols) to message
+      else:
+        en_string += char
+
+    return en_string
+
+  def decrypt_message(self, message):
+    """Decrypts the message input by the user."""
+    m = message.upper()
+    de_string = ""      # Decoded Message
+
+    # for each letter in message, will decrypt and append it to the decoded message
+    for char in m:
+      if char in self._alphabet:
+        de_string += self._decrypt_letter(char)
+      # appends non-letters (spaces and symbols) to message  
+      else:
+        de_string += char
+        
+    return de_string
+
+  def _encrypt_letter(self, letter):
+    """Private method that encrypts the letters"""
+    for i in range(len(self._alphabet)):
+      if letter == self._alphabet[i]:
+        loc = 25 - i
+
+    return self._alphabet[loc]
+
+  def _decrypt_letter(self, letter):
+    """Private method that decrypts the letters"""
+    for i in range(len(self._alphabet)):
+      if letter == self._alphabet[i]:
+        loc = 25 - i
+
+    return self._alphabet[loc]

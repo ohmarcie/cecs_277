@@ -1,0 +1,84 @@
+import check_input
+
+def read_maze():
+  '''
+  This reads the contents of the file and stores the contents in a 2D list. '''
+  maze_map = open('maze.txt')
+  row_and_column = [] #the 2D list
+  maze = maze_map.readlines()
+  for rows in maze:
+    row = [] #the 1D list that goes into the 2D list
+    for columns in rows:
+      row.append(columns)
+    row_and_column.append(row)
+  return row_and_column
+
+def find_start(maze):
+  '''
+  It searches through the elements in the maze using a set of nested for loops to find an "s". Then returns the location as a two item 1D list. '''
+  for r in range(len(maze)):
+    for c in range(len(maze[r])):
+      if "s" == maze[r][c]:
+        return [r, c]
+
+def display_maze(maze, loc):
+  '''
+  Displays the maze with the user's location as "X". '''
+  # goes through the 2d list to find user location
+  for r in range(len(maze)):
+    for c in range(len(maze[r])):
+      if loc[0] == r and loc[1] == c:
+        print("X", end = " ")
+      else:
+          print(maze[r][c], end = " ")
+
+def main():
+  '''
+  Runs the main function of the game. '''
+  print('-Maze Solver-')
+  not_solved = True
+  maze = read_maze()
+  loc = find_start(maze)
+  display_maze(maze, loc)
+
+  #locates the finish 
+  for r in range(len(maze)):
+    for c in range(len(maze[r])):
+      if "f" == maze[r][c]:
+        finish = [r, c]
+
+  # while loop ends once the user reaches finish
+  while not_solved:
+    print("\n1. Go North\n2. Go South\n3. Go East\n4. Go West")
+    option = check_input.get_int_range("Enter choice: ", 1, 4)
+    
+    #moves the user based off their option, as it checks if the user bumps into a wall or not
+    if option == 1:
+      if maze[loc[0] - 1][loc[1]] != "*":
+        loc[0] -=1
+      elif maze[loc[0] - 1][loc[1]] == "*":
+        print("You cannot move there.")
+    elif option == 2:
+      if maze[loc[0] + 1][loc[1]] != "*":
+        loc[0] +=1
+      elif maze[loc[0] + 1][loc[1]] == "*":
+        print("You cannot move there.")
+    elif option == 3:
+      if maze[loc[0]][loc[1] + 1] != "*":
+        loc[1] +=1
+      elif maze[loc[0]][loc[1] + 1] == "*":
+        print("You cannot move there.")
+    elif option == 4:
+      if maze[loc[0]][loc[1] - 1] != "*":
+        loc[1] -=1
+      elif maze[loc[0]][loc[1] - 1] == "*":
+        print("You cannot move there.")
+
+    # displays maze after every turn
+    display_maze(maze, loc)
+     
+    if loc == finish:
+      print ("\nCongratulations! You solved the maze.")
+      not_solved = False
+
+main()

@@ -1,0 +1,40 @@
+import check_input, player
+
+def take_turn(dice):
+  ''' Roll the player dice, display the dice, check for and display any win types, and display the updates score. '''
+
+  #rolls the dice
+  dice.roll_dice()
+  print(dice)
+  
+  # compares the three dices
+  if dice.has_three_of_a_kind():
+    print("You got three of a kind!")
+  # checks for pairs
+  elif dice.has_pair():
+    print ("You got a pair!")
+  # sees if there is a series of three
+  elif dice.has_series():
+    print("You got a series of three!")
+  else:
+    print("Aww. Too bad.")
+
+  # displays the updated score
+  print("Score =", dice.get_points())
+  
+def main():
+  ''' The main function of the program, that runs the game. '''
+
+  print("-Yahtzee-")
+  dice = player.Player()
+  playgame = True
+  
+  while playgame:
+    print()
+    take_turn(dice)
+    playgame = check_input.get_yes_no("Play again? (Y/N): ")
+    if playgame == False:
+      print("\nGame Over.\nFinal Score =", dice.get_points())  
+      break 
+
+main()

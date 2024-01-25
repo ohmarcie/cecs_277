@@ -1,0 +1,45 @@
+from door import Door
+from random import randint
+
+class LockedDoor(Door):
+  """ The door is locked and needs a key. The location of the key is randomized, look around to find it. 
+  Attributes:
+    _input: the user's selection
+    _location: the location of the key represented by a random number between 1-3"""
+
+  def __init__(self, location = randint(1,3)):
+    self._input = None
+    self._location = location
+    
+  def examine_door(self):
+    return "You encounter a locked door, you need to look around for the key."
+    
+  def menu_options(self):
+    return "1. Look under the mat\n2. Look under the flower pot\n3. Look under the fake rock\n"
+
+  def get_menu_max(self):
+    return 3
+
+  def attempt(self, option):
+    if option == 1:
+      self._input = 1
+      return "You looked under the mat."
+    elif option == 2:
+      self._input = 2
+      return "You looked under the flower pot."
+    elif option == 3:
+      self._input = 3
+      return "You looked under the fake rock."
+
+  def is_unlocked(self):
+    if self._input == self._location:
+      return True
+    else:
+      return False
+
+  def clue(self):
+    return "Look somewhere else."
+
+  def success(self):
+    if self.is_unlocked():
+      return "You found the key and opened the door.\n"

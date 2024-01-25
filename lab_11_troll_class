@@ -1,0 +1,15 @@
+from entity import Entity
+from random import randint
+
+class Troll(Entity):
+  """ The expert level Troll's hp and attack. """
+
+  def __init__(self):
+    """ Defines the Troll's name and hp. """
+    super().__init__("Monster Troll", randint(6, 10))
+
+  def melee_attack(self, entity):
+    """ Randomized attack against the entity. """
+    dmg = randint(5, 8)
+    entity.take_damage(dmg)
+    return f'{self.name} claw attacks {entity.name} for {dmg} damage.'

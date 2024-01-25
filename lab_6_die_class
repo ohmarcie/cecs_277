@@ -1,0 +1,30 @@
+import random
+
+class Die:
+  ''' Runs as a single die, with the number of sides of the die and the value of the rolled die. '''
+  
+  def __init__(self, sides = 6):
+    ''' Sets the number of sides of the die (default 6). '''
+    self.sides = sides
+    self.value = self.roll()
+
+  def roll(self):
+    ''' Generates a random number between 1 and the number of sides and assigns it to the die value. '''
+    self.value = random.randint(1, self.sides)
+    return str(self.value)
+
+  def __str__(self):
+    ''' Returns the die value as a string. '''
+    return str(self.value)
+
+  def __lt__(self, other):
+    ''' Compares the two dice to see if self value is less than the other value. Returns true if the value of self is less than the value of other. '''
+    return self.value < other.value
+ 
+  def __eq__(self, other):
+    ''' Compares the two dice to see if self value is equal to the other value. Returns true if borh the values of self and others are equal. '''
+    return self.value == other.value
+    
+  def __sub__(self, other):
+    ''' Returns the difference between the values of self and other. '''
+    return self.value - other.value

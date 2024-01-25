@@ -1,0 +1,14 @@
+import abc
+
+class PuppyState(abc.ABC):
+  """ State interface for Puppy class. """
+  
+  @abc.abstractmethod
+  def play(self, puppy):
+    """ Changes puppy's state to playing. """
+    pass
+
+  @abc.abstractmethod
+  def feed(self, puppy):
+    """ Changes puppy's state to eating. """
+    pass

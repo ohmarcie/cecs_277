@@ -1,0 +1,38 @@
+class Task:
+  """Represents a task in a task list.
+  Attributes:
+    Description (str): string description of task.
+    Date (str): due date of task in the format YYYY/MM/DD.
+    Time (str): time the task is due in the format HH:MM
+  """
+  
+  def __init__(self, desc, date, time):
+    self.description = desc
+    self.date = date
+    self.time = time
+
+  def get_description(self):
+    return self.description
+
+  def __str__(self):
+    return self.description+ ' - Due: ' + self.date + ' at ' + self.time
+    
+  def __repr__(self):
+    """Returns string used to write the task to the file."""
+    n = ''
+    if '\n' not in self.time:
+      n = '\n'
+    return self.description+","+self.date+","+self.time + n
+
+  def __lt__(self, other):
+    if int(self.date[0:4]) == int(other.date[0:4]):
+      if int(self.date[5:7]) == int(other.date[5:7]):
+        if int(self.date[8:]) == int(other.date[8:]):
+          if int(self.time[0:2]) == int(other.time[0:2]):
+            if int(self.time[3:]) == int(other.time[3:]):
+              return self.description < other.description
+            return int(self.time[3:]) < int(other.time[3:])
+          return int(self.time[0:2]) < int(other.time[0:2])
+        return int(self.date[8:]) < int(other.date[8:])
+      return int(self.date[5:7]) < int(other.date[5:7])
+    return int(self.date[0:4]) < int(other.date[0:4])

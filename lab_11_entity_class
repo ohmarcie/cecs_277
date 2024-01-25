@@ -1,0 +1,33 @@
+import abc
+
+class Entity(abc.ABC):
+  def __init__(self, name, hp):
+    """Defines the Entity's name and HP."""
+    self._name = name
+    self._hp = hp
+
+  @property
+  def name(self):
+    """Gets the name of the entity."""
+    return self._name
+    
+  @property
+  def hp(self):
+    """Gets the HP of the entity."""
+    return self._hp
+
+  def take_damage(self, dmg):
+    """Deals the damage the entity takes."""
+    self._hp = self.hp - dmg
+    if self._hp < 0:
+      self._hp = 0
+    return self._hp
+
+  def __str__(self):
+    """Returns string with the entity's name and HP."""
+    return f'{self._name} HP: {str(self._hp)}'
+
+  @abc.abstractmethod
+  def melee_attack(self, entity):
+    """The attack an entity does to another entity."""
+    pass

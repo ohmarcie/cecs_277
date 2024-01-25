@@ -1,0 +1,35 @@
+import check_input, alien, beast, undead, fire, flying, poison, lasers
+
+def main():
+  """ The menu in creating the monster. """
+
+  print("Monster Maker!")
+  monster_type = check_input.get_int_range("Choose a base monster:\n1. Alien\n2. Beast\n3. Undead\nEnter choice: ", 1, 3)
+
+  # declares what monster was chosen
+  if monster_type == 1:
+    monster = alien.Alien()
+  elif monster_type == 2:
+    monster = beast.Beast()
+  elif monster_type == 3:
+    monster = undead.Undead()
+
+  # chooses the abilities for the monster
+  ability = 0
+  while ability != 5:
+    print(monster)
+    ability = check_input.get_int_range("Add an ability:\n1. Fire\n2. Flying\n3. Laser\n4. Poison\n5. Quit\nEnter ability: ", 1, 5)
+
+    if ability == 1:
+      monster = fire.Fire(monster)  #fire ability
+    elif ability == 2:
+      monster = flying.Flying(monster)  #flying ability
+    elif ability == 3:
+      monster = lasers.Lasers(monster) #laser ability
+    elif ability == 4:
+      monster = poison.Poison(monster) #posion ability
+
+  print("\nYour final monster is:", end ='')
+  print(monster)
+  
+main()

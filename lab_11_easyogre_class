@@ -1,0 +1,16 @@
+from entity import Entity
+from random import randint
+
+class Easy_Ogre(Entity):
+  """ The beginner level Ogre's hp and attack. """
+
+  def __init__(self):
+    """ Defines the easy Ogre's name and hp. """
+    super().__init__("Ogre", randint(7, 8))
+
+  def melee_attack(self, entity):
+    """ Randomized attack against the entity. """
+    dmg = randint(5, 8)
+    entity.take_damage(dmg)
+    return f'{self.name} slams {entity.name} for {dmg} damage.'
+    

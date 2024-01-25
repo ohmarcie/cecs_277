@@ -1,0 +1,43 @@
+import check_input, random
+from locked_door import LockedDoor
+from basic_door import BasicDoor
+from deadbolt_door import DeadboltDoor
+
+def open_door(door):
+  """ Displays the description of the door, the menu, then get the user's selection, then pass that value to the attempt method and display the result. """
+
+  locked = True
+  if door == 1: 
+    door_type = LockedDoor() #calls the subclass LockedDoor()
+  elif door == 2:
+    door_type = BasicDoor() #calls the subclass BasicDoor()
+  elif door == 3:
+    door_type = DeadboltDoor() #calls the subclass DeadboltDoor()
+
+  print(door_type.examine_door())
+
+  while locked == True: #loops until the door is unlocked
+    option = check_input.get_int_range(door_type.menu_options(), 1, door_type.get_menu_max())
+    print(door_type.attempt(option))
+    
+    if door_type.is_unlocked() == True:
+      print(door_type.success())
+      locked = False
+    elif door_type.is_unlocked() == False: 
+      print(door_type.clue())
+  
+def main():
+  """ The main function that runs the program, going through a while loop until the user has opened all three doors to the escape room. """
+  
+  doors_opened = 0
+  print("Welcome to the Escape Room. You must unlock 3 doors to escape...\n")
+  
+  while doors_opened != 3: #loops until three doors have been opened
+    door_type = random.randint(1,3) 
+    open_door(door_type) #calls the open_door function with random number door_type
+    doors_opened += 1
+
+    if doors_opened == 3:
+      print("Congratulations! You escaped ... this time.")
+
+main()

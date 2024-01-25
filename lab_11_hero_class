@@ -1,0 +1,23 @@
+from entity import Entity
+from random import randint
+
+class Hero(Entity):
+  """ The user's character. """
+
+  def __init__(self, name):
+    """ Defines the user's name and default hp. """
+    super().__init__(name, 25)
+
+  def melee_attack(self, entity):
+    """ Deals 2D6 damage to the explicit entity. """
+    first_dmg = randint(1,6)
+    second_dmg = randint(1,6)
+    total_dmg = first_dmg + second_dmg
+    entity.take_damage(total_dmg)
+    return f'{self.name} slashes the {entity.name} with a sword for {total_dmg} damage.'
+
+  def ranged_attack(self, entity):
+    """ Deals 1D12 damage to the explicity entity. """
+    dmg = randint(1, 12)
+    entity.take_damage(dmg)
+    return f'{self.name} pierces the {entity.name} with an arrow for {dmg} damage.'

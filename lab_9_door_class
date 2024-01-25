@@ -1,0 +1,33 @@
+from abc import ABC, abstractclassmethod
+
+class Door(ABC):
+  """ Door interface with methods that are abstract. Representing the door."""
+  
+  @abstractclassmethod
+  def examine_door(self):
+    """ Returns a string description of the door. """
+    pass
+
+  def menu_options(self):
+    """ Returns a string of the menu options that the user can choose from when attempting to unlock the door. """
+    pass
+
+  def get_menu_max(self):
+    """ Returns the number of options in the above menu. """
+    pass
+
+  def attempt(self, options):
+    """ Passes the user's selection from the menu, used to determine whether the user has unlocked the door. """
+    pass
+
+  def is_unlocked(self):
+    """ Checks to see if the door was unlocked. """
+    pass
+
+  def clue(self):
+    """ Returns the hint that is returned if the user was successful at their attempt. """
+    pass
+
+  def success(self):
+    """ Returns the congratulatory message if the user was successful. """
+    pass

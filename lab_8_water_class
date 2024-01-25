@@ -1,0 +1,44 @@
+from pokemon import Pokemon
+import random, check_input
+
+class Water(Pokemon):
+  """Simulates a Fire type pokemon which the player can use in the game."""
+  
+  def __init__(self, name, type):
+    """Initializes Pokemon of type Water"""
+    super().__init__(name, type)
+
+  def get_special_menu(self):
+    return check_input.get_int_range("\nChoose a Move:\n1. Water Gun\n2. Bubble Beam\nEnter move: ", 1, 2)
+
+  def _special_move(self, opponent, move):
+    if move == 1:
+      return self._water_gun(opponent)
+    if move == 2:
+      return self._bubble_beam(opponent)
+
+  def _water_gun(self, opponent):
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(1, 5) * d
+    opponent._take_damage(dmg)
+    s = self._name + " blasts " + opponent._name + " with WATER GUN for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else:
+      return s
+
+  def _bubble_beam(self, opponent):
+    d = self._battle_table[self._type][opponent._type]
+    dmg = random.randint(3, 4) * d
+    opponent._take_damage(dmg)
+    s = self._name + " attacks " + opponent._name + " with BUBBLE BEAM for " + str(int(dmg)) + " damage."
+
+    if d == 2:
+      return s + "\nIt was SUPER EFFECTIVE!"
+    elif d == .5:
+      return s + "\nIt was not very effective."
+    else: 
+      return s

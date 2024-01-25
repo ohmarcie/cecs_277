@@ -1,0 +1,52 @@
+import check_input, ceaser_cipher, cipher
+
+def main():
+  ''' The main function of the program.
+  Runs the encrypt and decrypt program using two encryption types. '''
+  
+  ceaser = ceaser_cipher.Ceaser_Cipher(0)
+  atbash = cipher.Cipher()
+
+  print("Secret Decoder Ring: ")
+  option = check_input.get_int_range("1. Encrypt\n2. Decrypt\n", 1, 2)
+    
+  if option == 1:
+    file = open("message.txt", "w")
+    print("Enter encryption type: ")
+    en_type = check_input.get_int_range("1. Atbash\n2. Caesar\n", 1, 2)
+      
+    if en_type == 1:                  #Atbash Encryption
+      msg = input("Enter message: ")
+      en_message = atbash.encrypt_message(msg)
+        
+      file.write(en_message)
+      print("Encrypted message saved to 'message.txt'.", "\n")
+
+    if en_type == 2:                  #Caesar Encryption
+      msg = input("Enter message: ")
+      #changes shift value from initialized value
+      ceaser.shift = check_input.get_int_range("Enter shift value: ", 0, 25)    
+      en_message = ceaser.encrypt_message(msg)
+        
+      file.write(en_message)  
+      print("Encrypted message saved to 'message.txt'.", "\n")
+        
+  if option == 2:
+    read_file = open("message.txt", "r")    #opens file for reading only
+    print("Enter decryption type: ")
+    decrypt = check_input.get_int_range("1. Atbash\n2. Caesar\n", 1, 2)
+      
+    if decrypt == 1:                  #Atbash Decryption
+      print("Reading encrypted message from 'message.txt'.") 
+      decrypt_msg = atbash.decrypt_message(read_file.read())
+      print("Decrypted message:", decrypt_msg)
+        
+    if decrypt == 2:                  #Caesar Decryption
+      shift = check_input.get_int_range("Enter shift value: ", 0, 25)
+      ceaser.shift = shift
+
+      print("Reading encrypted message from 'message.txt'.")
+      decrypt_msg = ceaser.decrypt_message(read_file.read())
+      print("Decrypted message:", decrypt_msg)
+    
+main()

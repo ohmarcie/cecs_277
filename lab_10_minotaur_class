@@ -1,0 +1,71 @@
+from maze import Maze
+from random import randint
+
+class Minotaur():
+  """ Represents the Minotaur through directional movements and location.
+  Attributes:
+      _row (int): the row value
+      _col (int): the column value
+      _dir (char): the direction (left, right, up, down)
+      _turns (int): the number of turns"""
+  
+  def __init__(self):
+    """ Sets the rows, columns, directions, turns, and location of the Minotaur. """
+    m = Maze()
+    self._row = randint(2, len(m)-1)
+    self._col = randint(2, len(m[0])-1)
+    while m[self._row][self._col] == "*" or m[self._row][self._col] == "f" or m[self._row][self._col] == "H":
+      self._row = randint(2, len(m))
+      self._col = randint(2, len(m[0]))
+      
+    self._dir = None 
+    self._turns = 0
+    m[self._row][self._col] = "M"
+
+  def _get_search_dir(self):
+    """ Determines the direction that the minotaur will move in. """
+    n = randint(1,8)
+
+    if n == 1 or n == 2 or n == 3:
+      self._dir = "right"
+    if n == 4 or n == 5 or n == 6:
+      self._dir = "left"
+    if n == 7 or n == 8 or n == 9:
+      self._dir = "up"
+    if n == 10 or n == 11 or n == 12:
+      self._dir = "down"
+    return self._dir
+
+  def move_minotaur(self):
+    """ Moves the Minotaur three times, as it detects the Hero's location. """
+    m = Maze()
+    while self._turns < 3:
+      direction = self._get_search_dir()
+      
+      if direction == "right":
+        if m[self._row][self._col + 1] != "*" and m[self._row][self._col + 1] != "f":
+          m[self._row][self._col] = " "
+          self._col += 1
+          m[self._row][self._col] = "M"
+          
+      elif direction == "left":
+        if m[self._row][self._col - 1] != "*" and m[self._row][self._col - 1] != "f":
+          m[self._row][self._col] = " "
+          self._col -= 1
+          m[self._row][self._col] = "M"
+          
+      elif direction == "up":
+        if m[self._row - 1][self._col] != "*" and m[self._row - 1][self._col] != "f":
+          m[self._row][self._col] = " "
+          self._row -= 1
+          m[self._row][self._col] = "M"
+          
+      elif direction == "down":
+        if m[self._row + 1][self._col] != "*" and m[self._row + 1][self._col] != "f":
+          m[self._row][self._col] = " "
+          self._row += 1
+          m[self._row][self._col] = "M"
+      self._turns += 1
+    self._turns = 0
+    return m[self._row][self._col]
+          

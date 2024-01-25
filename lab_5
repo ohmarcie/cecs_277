@@ -1,0 +1,124 @@
+import check_input, task
+
+def main_menu():
+  ''' Presents the main menu options and returns the user's valid input '''
+  print("1. Display current task\n2. Mark current task complete\n3. Postpone current task\n4. Add new task\n5. Save and quit")
+  option = check_input.get_int_range("Enter choice: ", 1, 5)
+  return option
+
+def read_file(filename):
+  ''' Open the file and read each line that consists of the task description, due date, and time separated by commas. Returns the filled task list. '''
+  file = open(filename)
+  # List of task objects
+  TaskList = []
+
+  for i in file:
+    # Reads line, splits it into a list of strings [desc, date, time]
+    list_task = i.split(",")
+
+    # Constructs task, appends it to the list of Task objects
+    desc = list_task[0]
+    date = list_task[1]
+    time = list_task[2]
+    TaskList.append(task.Task(desc, date, time))
+
+  file.close()
+  return TaskList
+
+def write_file(filename, tasklist):
+  ''' Iterate through the list of tasks and write each one to the file using the Task repr method '''
+  file = open(filename, "w")
+  for i in tasklist:
+    file.write(i.__repr__())
+  file.close()
+
+def get_date():
+  ''' Prompts the user to enter the year, month, and day. '''
+  year = check_input.get_int_range("Enter year: ", 2000, 3000)
+  month = check_input.get_int_range("Enter month: ", 1, 12)
+  day = check_input.get_int_range("Enter day: ", 1, 31)
+  if month<10:
+    month = '0' + str(month)
+  if day<10:
+    day = '0' + str(day)
+  return str(year) + '/' + str(month) + '/' + str(day)
+
+def get_time():
+  ''' Prompts the user to enter the hour (in military time) and minute. '''
+  hour = check_input.get_int_range("Enter hour: ", 0, 23)
+  minute = check_input.get_int_range("Enter minute: ", 0, 59)
+  if hour<10:
+    hour = "0" + str(hour)
+  if minute<10:
+    minute = "0" + str(minute)
+  return str(hour) + ":" + str(minute)
+  
+def main():
+  ''' The main function of the program. '''
+  quit = True
+  current_task = read_file("tasklist.txt")
+  current_task.sort()
+  
+  while quit:
+    tasks = len(current_task)
+    print("-Tasklist-")
+    print("Tasks to complete:", tasks)
+    option = main_menu()
+
+    if tasks == 0:
+      print("All tasks are completed.")
+      
+    elif option == 1:
+      if tasks > 0:
+        print("Current task is:")
+        print(current_task[0], end= '')
+        
+    elif option == 2:
+      if tasks > 0:
+        #display the current task
+        print("Marking current task as complete:")
+        print(current_task[0], end=' ')
+        #remove it
+        current_task.remove(current_task[0])
+        #display the new current task
+        if len(current_task) == 0:
+          print("All tasks are completed.")
+        else:
+          print("New current task is:")
+          print(current_task[0])
+        
+    elif option == 3:
+      if tasks > 0:
+        #display current task
+        print("Postponing task:")
+        print(current_task[0])
+        postpone_task = task.Task.get_description(current_task[0])
+        #enter a new date and time
+        print("Enter new due date:")
+        date = get_date()
+        print("Enter new time:")
+        time = get_time()
+
+        #construct a new task using the old description with the updated due date and time
+        #add it back to the list and resort it
+        current_task[0] = task.Task(postpone_task, date, time)
+        current_task.sort()
+        
+    elif option == 4:
+      #prompt the user to enter a new task description, due date, and time
+      task_name = input("Enter a task: ")
+      print("Enter due date:")
+      date = get_date()
+      print("Enter time:")
+      time = get_time()
+      #add it to the list and resort it
+      current_task.append(task.Task(task_name, date, time))
+      current_task.sort()
+      
+    elif option == 5:
+      write_file("tasklist.txt", current_task)
+      quit = False
+
+    print()
+  
+main()
